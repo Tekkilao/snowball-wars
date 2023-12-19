@@ -88,9 +88,9 @@
       })
       window.addEventListener('click', (e) => {
         const player = players.find((player) => player.id === socket.id);
-        const mouseX = e.clientX - canvasEl.getBoundingClientRect().left;
-        const mouseY = e.clientY - canvasEl.getBoundingClientRect().top;
-        const angle = Math.atan2(mouseY - player.y, mouseX - player.x);
+        const mouseX = e.clientX;
+        const mouseY = e.clientY;
+        const angle = Math.atan2(mouseY - canvasEl.height / 2, mouseX - canvasEl.width / 2);
         socket.emit("snowball", angle);
       })
 

@@ -17,6 +17,7 @@ const TICK_RATE = 64;
 
 const SPEED = 5;
 const SNOWBALL_SPEED = 7;
+const PLAYER_SIZE = 32;
 
 let players = [];
 let snowballs = [];
@@ -53,7 +54,21 @@ function tick(delta) {
         snowball.x += Math.cos(snowball.angle) * SNOWBALL_SPEED;
         snowball.y += Math.sin(snowball.angle) * SNOWBALL_SPEED;
         snowball.timeLeft -= delta;
+
+        for (const player of players)
+        {
+            if (player.id === snowball.playerId) continue;
+            const distance = Math.sqrt((player.x + PLAYER_SIZE / 2 - snowball.x) ** 2 + (player.y + PLAYER_SIZE / 2 - snowball.y) ** 2);
+            if (distance <= PLAYER_SIZE / 2) 
+            {
+                player.x = 0;
+                player.y = 0;
+                snowball.timeLeft = -1;
+                break;
+            }
+        }
     }
+
     
     snowballs = snowballs.filter((snowball) => snowball.timeLeft > 0);
 
@@ -99,7 +114,8 @@ async function main() {
                 angle,
                 x: player.x,
                 y: player.y,
-                timeLeft: 4000, 
+                timeLeft: 4000,
+                playerId: socket.id, 
             })
         })
 
