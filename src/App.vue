@@ -1,7 +1,6 @@
 <script setup>
   import { io } from "socket.io-client";
   import { onMounted } from "vue";
-;
 
 
     onMounted( () => {
